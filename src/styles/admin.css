@@ -1,0 +1,72 @@
+/* Panel admina – prosty, czytelny, w barwach strony */
+.admin{min-height:100vh;background:#f6f3ec;padding-bottom:110px}
+.admin [hidden]{display:none !important}
+.admin .bar{background:#26244f;color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(201,164,92,.35)}
+.admin .brand{font-family:'Playfair Display',serif;color:#d9bb78;font-size:20px;font-weight:600}
+.admin .brand span{color:#d6d3e6;font-family:'Barlow',sans-serif;font-size:14px;font-weight:500}
+.admin .link{background:none;border:none;color:#e9e6f2;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600}
+.admin .link:hover{color:#d9bb78}
+.admin .panel{max-width:960px;margin:32px auto;padding:0 20px}
+.admin h1{margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;color:#26244f;font-size:30px}
+.admin h2{margin:0;font-family:'Playfair Display',serif;font-weight:600;color:#26244f;font-size:24px}
+.admin .muted{color:#6b6985;font-size:14px;line-height:1.5;margin:0}
+.admin .error{color:#b3261e;font-size:14px;margin:0;min-height:1em}
+
+.admin .login{max-width:420px;margin-top:10vh;background:#fff;border-top:2px solid #b8913f;padding:32px}
+.admin .login form{display:flex;flex-direction:column;gap:16px;margin-top:20px}
+
+.admin label,.admin .field{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b6985}
+.admin .field .label{display:block}
+.admin input:not([type=file]),.admin textarea{padding:11px 13px;border:1px solid #ddd8cc;background:#fbfaf7;font-size:15px;color:#2b2a45;outline-color:#b8913f;letter-spacing:normal;text-transform:none;font-weight:400;border-radius:2px;font-family:inherit}
+.admin textarea{resize:vertical;line-height:1.5}
+.admin small{text-transform:none;letter-spacing:normal;font-weight:400}
+
+.admin .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;font-size:15px;font-weight:600;border-radius:2px;border:1px solid #b8913f;background:#fff;color:#26244f;cursor:pointer;text-transform:none;letter-spacing:normal;white-space:nowrap}
+.admin .btn:hover:not(:disabled){background:#26244f;color:#fff}
+.admin .btn.primary{background:linear-gradient(135deg,#e2c687,#b8913f);border-color:transparent;color:#1f1d45}
+.admin .btn.primary:hover:not(:disabled){filter:brightness(1.08);background:linear-gradient(135deg,#e2c687,#b8913f);color:#1f1d45}
+.admin .btn.ghost{border-color:transparent;background:transparent}
+.admin .btn.small{padding:8px 12px;font-size:14px}
+.admin .btn.danger{border-color:#e3b4b0;color:#b3261e}
+.admin .btn.danger:hover:not(:disabled){background:#b3261e;color:#fff}
+.admin .btn:disabled,.admin .icon-btn:disabled{opacity:.4;cursor:default}
+.admin .btn .ms{font-size:20px}
+.admin .icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid #b8913f;background:#fff;color:#26244f;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.admin .icon-btn:hover:not(:disabled){background:#26244f;color:#fff}
+.admin .icon-btn .ms{font-size:20px}
+
+.admin .list-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.admin .slides{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.admin .slide{background:#fff;border-left:3px solid #b8913f;padding:14px 16px;display:grid;grid-template-columns:auto 88px 1fr auto;gap:16px;align-items:center}
+.admin .num{font-family:'Playfair Display',serif;color:#a8843f;font-size:22px;width:24px;text-align:center}
+.admin .thumb{width:88px;height:88px;object-fit:cover;background:#f1eee6;display:block}
+.admin .info{display:flex;flex-direction:column;gap:6px;min-width:0}
+.admin .labels{display:flex;gap:6px;flex-wrap:wrap}
+.admin .tag{background:#26244f;color:#d9bb78;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px}
+.admin .promo{border:1px solid #b8913f;color:#a8843f;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px}
+.admin .title{font-size:17px;color:#26244f}
+.admin .info .link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.admin .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.admin .empty{padding:24px;background:#fff;text-align:center}
+
+.admin .savebar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #ddd8cc;box-shadow:0 -10px 30px -20px rgba(38,36,79,.4);padding:14px 24px;display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:wrap;z-index:10}
+.admin .savebar span{margin-right:auto;color:#55536e;font-size:15px}
+.admin .savebar.dirty span{color:#a8843f;font-weight:600}
+
+.admin dialog{border:none;padding:0;max-width:680px;width:calc(100% - 32px);max-height:calc(100vh - 32px);border-top:3px solid #b8913f;box-shadow:0 30px 80px -20px rgba(38,36,79,.5)}
+.admin dialog::backdrop{background:rgba(38,36,79,.55)}
+.admin dialog form{padding:24px 28px;display:flex;flex-direction:column;gap:16px}
+.admin .dlg-head,.admin .dlg-foot{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.admin .dlg-foot{justify-content:flex-end}
+.admin .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.admin .image-pick{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.admin #editor-preview{width:140px;height:140px;object-fit:cover;background:#f1eee6}
+
+@media (max-width:640px){
+  .admin .slide{grid-template-columns:64px 1fr;gap:12px}
+  .admin .num{display:none}
+  .admin .thumb{width:64px;height:64px}
+  .admin .actions{grid-column:1/-1;justify-content:flex-start}
+  .admin dialog form{padding:20px}
+}
+.admin label.btn{flex-direction:row;font-size:15px;letter-spacing:normal;text-transform:none;color:#26244f}

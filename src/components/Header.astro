@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo_small.jpeg';
+const { hasPromos = true } = Astro.props;
+---
+<header class="header">
+  <div class="inner">
+    <a href="#top" class="brand" aria-label="MMSafe Ubezpieczenia – strona główna">
+      <Image src={logo} alt="MMSafe" height={46} densities={[1, 2]} loading="eager" />
+    </a>
+    <nav aria-label="Menu główne">
+      {hasPromos && <a href="#oferta-sezonowa" class="nav-link">Promocje</a>}
+      <a href="#oferta" class="nav-link">Oferta</a>
+      <a href="#doradca" class="nav-link">Doradca</a>
+      <a href="#opinie" class="nav-link">Opinie</a>
+      <a href="#kontakt" class="cta btn-gold"><span class="ms" aria-hidden="true">chat</span>Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header{position:sticky;top:0;z-index:50;background:#26244f;border-bottom:1px solid rgba(201,164,92,.35)}
+  .inner{max-width:1200px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center}
+  .brand img{height:46px;width:auto;display:block}
+  nav{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+  .nav-link{color:#e9e6f2;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+  .nav-link:hover{color:#d9bb78}
+  .cta{display:flex;align-items:center;gap:8px;padding:10px 18px;font-size:14px}
+  .cta .ms{font-size:18px}
+</style>

@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import prof from '../assets/prof.jpeg';
+import { company } from '../data/site';
+
+const perks = [
+  { icon: 'compare_arrows', title: 'Bezpłatna analiza polis', text: 'także tych już zawartych' },
+  { icon: 'support_agent', title: 'Wsparcie przy szkodzie', text: 'od zgłoszenia do wypłaty' },
+  { icon: 'storefront', title: 'Biuro stacjonarne', text: 'Imielin i okolice' },
+];
+---
+<section id="doradca" class="advisor">
+  <div class="inner">
+    <div class="portrait">
+      <div class="frame" aria-hidden="true"></div>
+      <Image src={prof} alt={`${company.owner} – doradca ubezpieczeniowy, MMSafe Ubezpieczenia`} widths={[370, 508]} sizes="370px" loading="lazy" />
+    </div>
+    <div class="copy">
+      <div class="eyebrow">Twój doradca</div>
+      <div class="name">
+        <h2 class="h2">{company.owner}</h2>
+        <span>Właścicielka MMSafe Ubezpieczenia, partner Unilink</span>
+      </div>
+      <p>Mogę przedstawić Ci oferty różnych ubezpieczycieli i pomóc wybrać tę, która najlepiej odpowiada Twoim potrzebom. Nie musisz samodzielnie przeglądać dziesiątek ofert - porozmawiamy, dopasujemy zakres i poszukamy korzystnej ceny.</p>
+      <p>Nie zależy mi na szybkiej sprzedaży, lecz na realnej pomocy. Jestem do dyspozycji także po podpisaniu umowy - zwłaszcza wtedy, gdy trzeba zgłosić szkodę.</p>
+      <div class="divider"></div>
+      <div class="perks">
+        {perks.map((p) => (
+          <div class="perk"><span class="ms" aria-hidden="true">{p.icon}</span><div><strong>{p.title}</strong><span>{p.text}</span></div></div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .advisor{background:#fbfaf7}
+  .inner{max-width:1200px;margin:0 auto;padding:84px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:64px;align-items:center}
+  .portrait{position:relative;padding:20px 20px 0 0;max-width:370px;justify-self:center;width:100%}
+  .frame{position:absolute;top:0;right:0;left:20px;bottom:20px;border:1px solid #b8913f}
+  .portrait img{position:relative;display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:top;box-shadow:0 30px 60px -30px rgba(38,36,79,.45)}
+  .copy{display:flex;flex-direction:column;gap:20px}
+  .name{display:flex;flex-direction:column;gap:6px}
+  .name span{color:#a8843f;font-weight:600;font-size:15px}
+  p{margin:0;font-size:17px;line-height:1.7;color:#55536e;text-wrap:pretty}
+  .divider{height:1px;background:rgba(184,145,63,.4)}
+  .perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+  .perk{display:flex;gap:12px}
+  .perk .ms{font-size:24px;color:#a8843f}
+  .perk div{display:flex;flex-direction:column;gap:2px}
+  .perk strong{font-size:15px;color:#26244f}
+  .perk div span{font-size:14px;color:#6b6985}
+</style>

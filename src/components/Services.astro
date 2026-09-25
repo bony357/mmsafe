@@ -1,0 +1,39 @@
+---
+import { services } from '../data/site';
+---
+<section id="oferta" class="services">
+  <div class="inner">
+    <div class="head">
+      <div class="head-copy">
+        <div class="eyebrow">Zakres usług</div>
+        <h2 class="h2 balance">Ubezpieczenia dopasowane do Twoich potrzeb</h2>
+      </div>
+      <p>Przedstawiam oferty wielu ubezpieczycieli i tłumaczę różnice prostym językiem. Wybór zawsze należy do Ciebie.</p>
+    </div>
+    <div class="grid">
+      {services.map((sv) => (
+        <div class="card">
+          <div class="icon"><span class="ms" aria-hidden="true">{sv.icon}</span></div>
+          <h3>{sv.title}</h3>
+          <p>{sv.text}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services{background:#f6f3ec}
+  .inner{max-width:1200px;margin:0 auto;padding:96px 24px;display:flex;flex-direction:column;gap:48px}
+  .head{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:end}
+  .head-copy{display:flex;flex-direction:column;gap:14px}
+  .balance{text-wrap:balance}
+  .head p{margin:0;font-size:16px;line-height:1.65;color:#55536e;text-wrap:pretty}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(max(280px,calc((100% - 40px) / 3)),1fr));gap:20px}
+  .card{background:#fff;padding:32px 28px;border-top:2px solid #d9bb78;display:flex;flex-direction:column;gap:14px;transition:transform .25s,box-shadow .25s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 24px 44px -28px rgba(38,36,79,.45)}
+  .icon{width:52px;height:52px;border-radius:50%;background:#26244f;display:flex;align-items:center;justify-content:center}
+  .icon .ms{font-size:26px;color:#d9bb78}
+  h3{margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:21px;color:#26244f}
+  .card p{margin:0;font-size:15px;line-height:1.6;color:#6b6985;text-wrap:pretty}
+</style>

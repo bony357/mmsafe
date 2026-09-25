@@ -1,0 +1,49 @@
+{
+  "slides": [
+    {
+      "id": "zakrecona-ochrona",
+      "image": "sezon1.jpg",
+      "tag": "Rower i hulajnoga",
+      "promo": "−10% z kodem agenta",
+      "title": "Zakręcona Ochrona",
+      "text": "Kompleksowe ubezpieczenie dla właścicieli rowerów (także elektrycznych) i hulajnóg elektrycznych. Chroni sprzęt, Ciebie i Twoje finanse.",
+      "points": [
+        "Uszkodzenie, zniszczenie lub kradzież sprzętu",
+        "OC w trakcie jazdy i NNW",
+        "Assistance medyczny — 12 rodzajów świadczeń, cała Europa"
+      ],
+      "cta": "Kup polisę online",
+      "link": "#"
+    },
+    {
+      "id": "moto-assistance",
+      "image": "sezon2.jpg",
+      "tag": "Samochód",
+      "promo": "−30% z kodem agenta",
+      "title": "Moto Assistance i Assistance Medyczny",
+      "text": "Pomoc na drodze wtedy, gdy najbardziej jej potrzebujesz - holowanie, naprawa na miejscu, auto zastępcze i opieka medyczna po zdarzeniu.",
+      "points": [
+        "Pomoc drogowa 24/7",
+        "Samochód zastępczy i nocleg",
+        "Transport medyczny i konsultacje lekarskie"
+      ],
+      "cta": "Sprawdź ofertę",
+      "link": "#"
+    },
+    {
+      "id": "odkrywaj-swiat",
+      "image": "sezon3.jpg",
+      "tag": "Podróże",
+      "promo": "Polisa w 5 minut",
+      "title": "Odkrywaj świat",
+      "text": "Weekend za granicą, rodzinne wakacje czy daleka podróż? Zabierz ze sobą coś, co waży niewiele, a daje dużo spokoju.",
+      "points": [
+        "Koszty leczenia i ratownictwa za granicą",
+        "Bagaż, OC w życiu prywatnym, NNW",
+        "Opcja sportów zimowych i wysokiego ryzyka"
+      ],
+      "cta": "Kup polisę turystyczną",
+      "link": "https://eshop.unilink.pl/lr/MM61931/Turystyczne"
+    }
+  ]
+}

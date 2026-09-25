@@ -1,0 +1,21 @@
+html{scroll-behavior:smooth}
+body{margin:0;background:#fbfaf7;color:#2b2a45;font-family:'Barlow',sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#a8843f;text-decoration:none}
+a:hover{color:#26244f}
+input,select,textarea,button{font-family:inherit}
+img{max-width:100%}
+
+/* Ikony Material Symbols (ligatury) */
+.ms{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;line-height:normal;letter-spacing:normal;text-transform:none;white-space:nowrap;direction:ltr;-webkit-font-feature-settings:'liga';font-feature-settings:'liga';user-select:none}
+
+/* Wspólne elementy sekcji */
+.eyebrow{display:flex;align-items:center;gap:12px;color:#a8843f;font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase}
+.eyebrow::before{content:'';width:36px;height:1px;background:#b8913f}
+.h2{margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(30px,3.6vw,42px);line-height:1.15;color:#26244f}
+.btn-gold{background:linear-gradient(135deg,#e2c687,#b8913f);color:#1f1d45;font-weight:600;border-radius:2px}
+.btn-gold:hover{filter:brightness(1.08);color:#1f1d45}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

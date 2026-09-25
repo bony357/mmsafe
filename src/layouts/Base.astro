@@ -1,0 +1,97 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import ogSrc from '../assets/og.jpg';
+import { company } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+  /** Dodatkowe nazwy ikon Material Symbols używane na stronie */
+  icons?: string[];
+}
+
+const { title, description, noindex = false, icons = [] } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const og = await getImage({ src: ogSrc, width: 1200, format: 'jpg' });
+const ogUrl = new URL(og.src, Astro.site).href;
+
+// Material Symbols: pobieramy tylko użyte ikony (lista musi być posortowana).
+const iconNames = [...new Set([
+  'arrow_forward', 'business_center', 'call', 'chat', 'check', 'chevron_left', 'chevron_right',
+  'child_care', 'compare_arrows', 'directions_car', 'favorite', 'flight_takeoff', 'home',
+  'location_on', 'mail', 'open_in_new', 'schedule', 'storefront', 'support_agent', 'task_alt',
+  ...icons,
+])].sort().join(',');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'InsuranceAgency',
+  '@id': `${new URL(base, Astro.site).href}#firma`,
+  name: company.name,
+  legalName: company.legalName,
+  url: new URL(base, Astro.site).href,
+  logo: ogUrl,
+  image: ogUrl,
+  telephone: company.phone.replace(/\s/g, ''),
+  email: company.email,
+  taxID: company.nip.replace(/-/g, ''),
+  identifier: { '@type': 'PropertyValue', propertyID: 'REGON', value: company.regon },
+  founder: { '@type': 'Person', name: company.owner },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: company.street.replace(/^ul\.\s*/, 'ul. '),
+    postalCode: company.postalCode,
+    addressLocality: company.city,
+    addressRegion: 'śląskie',
+    addressCountry: 'PL',
+  },
+  areaServed: company.areaServed.map((name) => ({ '@type': 'City', name })),
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Monday', opens: '12:00', closes: '20:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '09:00', closes: '20:00' },
+  ],
+  priceRange: 'Bezpłatna wycena',
+};
+---
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  {noindex
+    ? <meta name="robots" content="noindex, nofollow">
+    : <link rel="canonical" href={canonical}>}
+  <link rel="icon" type="image/png" href={`${base}favicon.png`}>
+  <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`}>
+  <meta name="theme-color" content="#26244f">
+  {!noindex && (
+    <>
+      <meta property="og:type" content="website">
+      <meta property="og:locale" content="pl_PL">
+      <meta property="og:site_name" content={company.name}>
+      <meta property="og:title" content={title}>
+      <meta property="og:description" content={description}>
+      <meta property="og:url" content={canonical}>
+      <meta property="og:image" content={ogUrl}>
+      <meta property="og:image:width" content="1200">
+      <meta property="og:image:height" content="630">
+      <meta name="twitter:card" content="summary_large_image">
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      <link rel="sitemap" href={`${base}sitemap-index.xml`}>
+    </>
+  )}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href={`https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght@24,300&icon_names=${iconNames}&display=block`} rel="stylesheet">
+  <slot name="head" />
+</head>
+<body>
+  <slot />
+</body>
+</html>

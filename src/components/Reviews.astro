@@ -1,0 +1,57 @@
+---
+import { reviews } from '../data/site';
+const copies = [false, true];
+---
+<section id="opinie" class="reviews">
+  <div class="head">
+    <div class="head-copy">
+      <div class="eyebrow light">Opinie klientów</div>
+      <h2>Zaufali mi mieszkańcy Imielina i okolic</h2>
+    </div>
+    <div class="score"><span class="num">5,0</span><div><span class="stars" aria-hidden="true">★★★★★</span><span class="sub">średnia ocen Google</span></div></div>
+  </div>
+  <div class="marquee" data-marquee>
+    <div class="track" data-marquee-track>
+      {copies.map((hidden) => reviews.map((r) => (
+        <figure aria-hidden={hidden ? 'true' : undefined}>
+          <blockquote>„{r.text}”</blockquote>
+          <figcaption>
+            <span class="initial" aria-hidden="true">{r.name[0]}</span>
+            <span class="author">{r.name}</span>
+            <span class="stars" aria-label="Ocena 5 na 5">★★★★★</span>
+          </figcaption>
+        </figure>
+      )))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initMarquee } from '../scripts/marquee';
+  document.querySelectorAll<HTMLElement>('[data-marquee]').forEach(initMarquee);
+</script>
+
+<style>
+  .reviews{background:#26244f;overflow:hidden}
+  .head{max-width:1200px;margin:0 auto;padding:64px 24px 32px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .head-copy{display:flex;flex-direction:column;gap:12px}
+  .eyebrow.light{color:#d9bb78}
+  .eyebrow.light::before{background:#d9bb78}
+  h2{margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(26px,3vw,34px);line-height:1.2;color:#fff}
+  .score{display:flex;align-items:center;gap:12px}
+  .num{font-family:'Playfair Display',serif;font-size:34px;color:#d9bb78}
+  .score div{display:flex;flex-direction:column;gap:2px}
+  .score .stars{color:#d9bb78;letter-spacing:3px;font-size:14px}
+  .sub{color:#d6d3e6;font-size:13px}
+  .marquee{overflow:hidden;padding-bottom:64px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+  .track{display:flex;gap:20px;width:max-content;will-change:transform}
+  figure{margin:0;width:360px;flex:0 0 360px;background:rgba(255,255,255,.04);border:1px solid rgba(217,187,120,.25);padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+  blockquote{margin:0;font-family:'Playfair Display',serif;font-style:italic;font-size:15px;line-height:1.55;color:#eeecf5;flex:1;text-wrap:pretty}
+  figcaption{display:flex;align-items:center;gap:10px}
+  .initial{width:30px;height:30px;border-radius:50%;background:#d9bb78;color:#26244f;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px}
+  .author{color:#fff;font-weight:600;font-size:14px}
+  figcaption .stars{margin-left:auto;color:#d9bb78;letter-spacing:2px;font-size:12px}
+  @media (prefers-reduced-motion:reduce){
+    .marquee{overflow-x:auto}
+  }
+</style>

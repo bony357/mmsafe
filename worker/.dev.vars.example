@@ -1,0 +1,5 @@
+# Skopiuj do .dev.vars do testów lokalnych (npx wrangler dev)
+ADMIN_PASSWORD=zmien-to-haslo
+SESSION_SECRET=dlugi-losowy-ciag-znakow
+GITHUB_TOKEN=github_pat_...
+ALLOWED_ORIGIN=http://localhost:4321

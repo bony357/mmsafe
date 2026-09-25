@@ -1,0 +1,82 @@
+---
+import { company, contactTopics } from '../data/site';
+---
+<section id="kontakt" class="contact">
+  <div class="inner">
+    <div class="intro">
+      <div class="eyebrow">Kontakt</div>
+      <h2 class="h2">Zadzwoń, napisz lub odwiedź biuro</h2>
+      <p>Wycena jest bezpłatna i nie zobowiązuje do zakupu polisy.</p>
+    </div>
+    <div class="cols">
+      <div class="card info">
+        <div class="details">
+          <a href={company.phoneHref} class="line strong"><span class="ms" aria-hidden="true">call</span>{company.phone}</a>
+          <a href={`mailto:${company.email}`} class="line strong"><span class="ms" aria-hidden="true">mail</span>{company.email}</a>
+          <address class="line"><span class="ms" aria-hidden="true">location_on</span><span>{company.street}<br>{company.postalCode} {company.city}</span></address>
+          <div class="line"><span class="ms" aria-hidden="true">schedule</span><span>Pon. 12:00–20:00<br>Wt.–pt. 9:00–20:00<br>Sob.–niedz. nieczynne</span></div>
+        </div>
+        <iframe title="Mapa dojazdu – MMSafe Ubezpieczenia" src={company.mapEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="card form-card" data-contact data-email={company.email}>
+        <h3>Poproś o bezpłatną wycenę</h3>
+        <div class="sent" data-sent hidden>
+          <span class="ms" aria-hidden="true">task_alt</span>
+          <strong>Dziękuję za wiadomość!</strong>
+          <span class="sent-text">Twój program pocztowy powinien otworzyć gotową wiadomość – wystarczy ją wysłać. Odezwę się najszybciej, jak to możliwe — zwykle w ciągu jednego dnia roboczego.</span>
+          <button type="button" class="reset" data-reset>Wyślij kolejne zapytanie</button>
+        </div>
+        <form data-form>
+          <div class="row">
+            <label>Imię i nazwisko<input required type="text" name="name" autocomplete="name" placeholder="Jan Kowalski"></label>
+            <label>Telefon<input required type="tel" name="phone" autocomplete="tel" placeholder="500 100 200"></label>
+          </div>
+          <label>Interesuje mnie
+            <select name="topic">
+              {contactTopics.map((t) => <option>{t}</option>)}
+            </select>
+          </label>
+          <label>Wiadomość<textarea rows="3" name="message" placeholder="Np. kończy mi się OC 15 października"></textarea></label>
+          <label class="consent"><input required type="checkbox" name="consent"><span>Wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania oferty, zgodnie z <a href="#">polityką prywatności</a>.</span></label>
+          <button type="submit" class="submit btn-gold">Wyślij zapytanie</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initContactForm } from '../scripts/contact-form';
+  document.querySelectorAll<HTMLElement>('[data-contact]').forEach(initContactForm);
+</script>
+
+<style>
+  .contact{background:#f6f3ec}
+  .inner{max-width:1200px;margin:0 auto;padding:96px 24px;display:flex;flex-direction:column;gap:40px}
+  .intro{display:flex;flex-direction:column;gap:14px;max-width:620px}
+  .intro p{margin:0;font-size:16px;line-height:1.65;color:#55536e}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;align-items:stretch}
+  .card{background:#fff;border-top:2px solid #b8913f}
+  .info{display:flex;flex-direction:column;gap:0}
+  .details{padding:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+  .line{display:flex;gap:12px;align-items:flex-start;color:#55536e;font-size:15px;line-height:1.5;font-style:normal}
+  .line.strong{align-items:center;color:#26244f;font-weight:600;font-size:16px;line-height:normal}
+  .line .ms{font-size:22px;color:#a8843f}
+  iframe{border:0;width:100%;flex:1;min-height:280px;display:block;filter:saturate(.7)}
+  .form-card{padding:32px;display:flex;flex-direction:column;gap:18px}
+  h3{margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px;color:#26244f;margin-bottom:10px}
+  .sent{flex:1;display:flex;flex-direction:column;gap:12px;align-items:flex-start;justify-content:center;padding:24px 0}
+  .sent[hidden],form[hidden]{display:none}
+  .sent .ms{font-size:40px;color:#a8843f}
+  .sent strong{font-size:18px;color:#26244f}
+  .sent-text{color:#55536e;font-size:15px;line-height:1.6}
+  .reset{background:none;border:none;padding:0;color:#a8843f;font-weight:600;cursor:pointer;font-size:14px}
+  form{display:flex;flex-direction:column;gap:14px}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+  label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#6b6985}
+  input:not([type=checkbox]),select,textarea{padding:12px 14px;border:1px solid #ddd8cc;background:#fbfaf7;font-size:15px;color:#2b2a45;outline-color:#b8913f;letter-spacing:normal;text-transform:none;font-weight:400;border-radius:0}
+  textarea{resize:vertical}
+  .consent{flex-direction:row;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:#6b6985;font-weight:400;letter-spacing:normal;text-transform:none}
+  .consent input{margin-top:3px;accent-color:#26244f}
+  .submit{border:none;padding:15px;font-size:15px;cursor:pointer}
+</style>

@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import { slides, slideImage } from '../data/promos';
+---
+{slides.length > 0 && (
+<section id="oferta-sezonowa" class="promos" aria-roledescription="karuzela" aria-label="Aktualne promocje">
+  <div class="inner">
+    <div class="head">
+      <div class="head-copy">
+        <div class="eyebrow">Oferta sezonowa</div>
+        <h2 class="h2">Aktualne promocje z kodem agenta</h2>
+      </div>
+      {slides.length > 1 && (
+        <div class="arrows">
+          <button type="button" class="arrow" data-prev aria-label="Poprzednia"><span class="ms" aria-hidden="true">chevron_left</span></button>
+          <button type="button" class="arrow" data-next aria-label="Następna"><span class="ms" aria-hidden="true">chevron_right</span></button>
+        </div>
+      )}
+    </div>
+    <div class="viewport" data-viewport>
+      <div class="track" data-track>
+        {slides.map((s, i) => (
+          <article class="slide" aria-roledescription="slajd" aria-label={`${i + 1} z ${slides.length}: ${s.title}`}>
+            <div class="media">
+              <Image src={slideImage(s)} alt={s.title} widths={[480, 720, 1000]} sizes="(min-width: 1200px) 576px, (min-width: 700px) 50vw, 100vw" loading="lazy" />
+            </div>
+            <div class="body">
+              <div class="labels"><span class="tag">{s.tag}</span><span class="promo">{s.promo}</span></div>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+              <ul class="points">
+                {s.points.map((p) => <li><span class="ms" aria-hidden="true">check</span>{p}</li>)}
+              </ul>
+              <div class="cta-row">
+                <a href={s.link} target="_blank" rel="noopener sponsored" class="cta btn-gold">{s.cta}<span class="ms" aria-hidden="true">open_in_new</span></a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+    {slides.length > 1 && (
+      <div class="dots">
+        {slides.map((s, i) => (
+          <button type="button" class="dot" class:list={{ active: i === 0 }} data-dot={i} aria-label={`Slajd ${i + 1}: ${s.title}`}></button>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+)}
+
+<script>
+  import { initCarousel } from '../scripts/carousel';
+  document.querySelectorAll<HTMLElement>('.promos').forEach(initCarousel);
+</script>
+
+<style>
+  .promos{background:#fbfaf7}
+  .inner{max-width:1200px;margin:0 auto;padding:96px 24px;display:flex;flex-direction:column;gap:40px}
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .head-copy{display:flex;flex-direction:column;gap:14px}
+  .arrows{display:flex;gap:10px}
+  .arrow{width:48px;height:48px;border:1px solid #b8913f;background:transparent;color:#26244f;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0}
+  .arrow:hover{background:#26244f;color:#fff}
+  .arrow .ms{font-size:22px}
+  .viewport{overflow:hidden;background:#fff;border-top:2px solid #b8913f;box-shadow:0 30px 60px -40px rgba(38,36,79,.35)}
+  .track{display:flex}
+  .slide{flex:0 0 100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:stretch}
+  .media{background:#f1eee6;display:flex;align-items:center;justify-content:center;min-height:360px}
+  .media img{display:block;width:100%;height:100%;max-height:520px;object-fit:cover}
+  .body{padding:48px;display:flex;flex-direction:column;gap:18px;justify-content:center}
+  .labels{display:flex;gap:10px;flex-wrap:wrap}
+  .tag{background:#26244f;color:#d9bb78;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px}
+  .promo{border:1px solid #b8913f;color:#a8843f;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px}
+  h3{margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:30px;line-height:1.2;color:#26244f}
+  p{margin:0;font-size:16px;line-height:1.65;color:#55536e;text-wrap:pretty}
+  .points{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .points li{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#2b2a45}
+  .points .ms{font-size:18px;color:#a8843f;margin-top:1px}
+  .cta-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding-top:8px}
+  .cta{padding:15px 26px;font-size:15px;display:flex;align-items:center;gap:10px}
+  .cta .ms{font-size:20px}
+  .dots{display:flex;justify-content:center;gap:10px}
+  .dot{width:14px;height:4px;border:none;padding:0;cursor:pointer;background:#d8d2c2;transition:all .3s}
+  .dot.active{width:36px;background:#b8913f}
+</style>

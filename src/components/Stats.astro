@@ -1,0 +1,23 @@
+---
+const stats = [
+  { value: '20+', label: 'towarzystw ubezpieczeniowych w jednym miejscu' },
+  { value: '0 zł', label: 'za porównanie ofert i doradztwo' },
+  { value: '24 h', label: 'na przygotowanie oferty' },
+  { value: '1 opiekun', label: 'od zakupu polisy po likwidację szkody' },
+];
+---
+<section class="stats" aria-label="MMSafe w liczbach">
+  <div class="inner">
+    {stats.map((s) => (
+      <div class="stat"><span class="value">{s.value}</span><span class="label">{s.label}</span></div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .stats{background:#26244f}
+  .inner{max-width:1200px;margin:0 auto;padding:40px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px}
+  .stat{border-left:1px solid #b8913f;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+  .value{font-family:'Playfair Display',serif;font-size:36px;color:#d9bb78}
+  .label{color:#d6d3e6;font-size:15px;line-height:1.4}
+</style>

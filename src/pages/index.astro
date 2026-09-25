@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Stats from '../components/Stats.astro';
+import PromoCarousel from '../components/PromoCarousel.astro';
+import Services from '../components/Services.astro';
+import Advisor from '../components/Advisor.astro';
+import Reviews from '../components/Reviews.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { slides } from '../data/promos';
+---
+<Base
+  title="MMSafe Ubezpieczenia – Małgorzata Migas, Imielin"
+  description="Multiagencja ubezpieczeniowa w Imielinie. Porównuję oferty ponad 20 towarzystw: OC/AC, dom i mieszkanie, życie i zdrowie, podróże, NNW i OC firmy. Bezpłatna wycena w 24 h."
+>
+  <div class="page">
+    <Header hasPromos={slides.length > 0} />
+    <main>
+      <Hero />
+      <Stats />
+      <PromoCarousel />
+      <Services />
+      <Advisor />
+      <Reviews />
+      <Contact />
+    </main>
+    <Footer />
+  </div>
+</Base>
+
+<style>
+  .page{min-height:100vh;display:flex;flex-direction:column}
+</style>

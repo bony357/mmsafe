@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo_small.jpeg';
+import { company } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="inner">
+    <div class="cols">
+      <div class="col brand">
+        <Image src={logo} alt="MMSafe" height={54} densities={[1, 2]} loading="eager" />
+        <span class="about">Ubezpieczenia Śląsk - {company.areaServed.join(', ')}.</span>
+      </div>
+      <nav class="col" aria-label="Na skróty">
+        <strong>Na skróty</strong>
+        <a href="#oferta">Oferta</a>
+        <a href="#doradca">Doradca</a>
+        <a href="#opinie">Opinie</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+      <div class="col">
+        <strong>Biuro</strong>
+        <span>{company.street}, {company.postalCode} {company.city}</span>
+        <a href={company.phoneHref}>{company.phone}</a>
+        <a href={`mailto:${company.email}`}>{company.email}</a>
+      </div>
+      <div class="col">
+        <strong>Dane firmy</strong>
+        <span>{company.legalName}</span>
+        <span>NIP: {company.nip}</span>
+        <span>REGON: {company.regon}</span>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© {year} {company.legalName}. Wszelkie prawa zastrzeżone.</span>
+      <div class="legal">
+        <a href="#">Polityka prywatności</a>
+        <a href="#">Klauzula RODO</a>
+        <a href="#">Informacje dla klienta</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer{background:#26244f;border-top:1px solid rgba(201,164,92,.35);color:#bdb9d2}
+  .inner{max-width:1200px;margin:0 auto;padding:56px 24px 28px;display:flex;flex-direction:column;gap:36px}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px}
+  .col{display:flex;flex-direction:column;gap:10px;font-size:14px}
+  .brand{gap:14px}
+  .brand img{height:54px;width:auto;align-self:flex-start;display:block}
+  .about{font-size:14px;line-height:1.6}
+  strong{color:#d9bb78;font-family:'Playfair Display',serif;font-size:16px;font-weight:600}
+  a{color:#bdb9d2}
+  a:hover{color:#fff}
+  .bottom{border-top:1px solid rgba(217,187,120,.2);padding-top:20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px}
+  .legal{display:flex;gap:20px;flex-wrap:wrap}
+</style>
