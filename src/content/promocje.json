@@ -16,7 +16,7 @@
       "link": "#"
     },
     {
-      "id": "moto-assistance",
+      "id": "moto-assistance-i-assistance-medyczny",
       "image": "sezon2.jpg",
       "tag": "Samochód",
       "promo": "−30% z kodem agenta",
@@ -44,6 +44,23 @@
       ],
       "cta": "Kup polisę turystyczną",
       "link": "https://eshop.unilink.pl/lr/MM61931/Turystyczne"
+    },
+    {
+      "id": "tytul-promocji",
+      "image": "promo-mureqgg6-zsw4f26k.jpg",
+      "tag": "Etykieta",
+      "promo": "Plakietka promocji",
+      "title": "Tytuł promocji",
+      "text": "Opis promocji\nOpis promocji\nOpis promocji\nOpis promocji",
+      "points": [
+        "Pierwsza zaleta",
+        "Druga zaleta",
+        "Trzecia zaleta",
+        "Czwarta zaleta",
+        "Zaletaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "cta": "Tekst przycisku",
+      "link": "https://google.pl"
     }
   ]
 }
