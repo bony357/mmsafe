@@ -1,14 +1,17 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../assets/logo_small.jpeg';
+import logo from '../assets/logo_long.jpg';
 const { hasPromos = true } = Astro.props;
 ---
-<header class="header">
+<header class="header" data-header>
   <div class="inner">
     <a href="#top" class="brand" aria-label="MMSafe Ubezpieczenia – strona główna">
-      <Image src={logo} alt="MMSafe" height={46} densities={[1, 2]} loading="eager" />
+      <Image src={logo} alt="MMSafe Ubezpieczenia Małgorzata Migas" height={64} densities={[1, 2]} loading="eager" />
     </a>
-    <nav aria-label="Menu główne">
+    <button type="button" class="burger" data-burger aria-expanded="false" aria-controls="menu" aria-label="Otwórz menu">
+      <span class="ms" aria-hidden="true">menu</span>
+    </button>
+    <nav id="menu" aria-label="Menu główne" data-menu>
       {hasPromos && <a href="#oferta-sezonowa" class="nav-link">Promocje</a>}
       <a href="#oferta" class="nav-link">Oferta</a>
       <a href="#doradca" class="nav-link">Doradca</a>
@@ -18,14 +21,58 @@ const { hasPromos = true } = Astro.props;
   </div>
 </header>
 
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const burger = header?.querySelector<HTMLButtonElement>('[data-burger]');
+  const menu = header?.querySelector<HTMLElement>('[data-menu]');
+  if (header && burger && menu) {
+    const icon = burger.querySelector('.ms')!;
+    const setOpen = (open: boolean) => {
+      header.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Zamknij menu' : 'Otwórz menu');
+      icon.textContent = open ? 'close' : 'menu';
+    };
+    burger.addEventListener('click', () => setOpen(!header.classList.contains('open')));
+    menu.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) setOpen(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+    document.addEventListener('click', (e) => { if (!header.contains(e.target as Node)) setOpen(false); });
+    matchMedia('(min-width: 901px)').addEventListener('change', () => setOpen(false));
+  }
+</script>
+
 <style>
-  .header{position:sticky;top:0;z-index:50;background:#26244f;border-bottom:1px solid rgba(201,164,92,.35)}
-  .inner{max-width:1200px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .header{position:sticky;top:0;z-index:50;background:#282554;border-bottom:1px solid rgba(201,164,92,.35)}
+  .inner{position:relative;max-width:1200px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
   .brand{display:flex;align-items:center}
-  .brand img{height:46px;width:auto;display:block}
-  nav{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+  /* logo_long ma ~70 px marginesu z lewej (w oryginale) – wyrównujemy treść logo do krawędzi strony */
+  .brand img{height:64px;width:auto;display:block;margin:-8px 0 -8px -18px}
+  nav{display:flex;align-items:center;gap:28px}
   .nav-link{color:#e9e6f2;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
   .nav-link:hover{color:#d9bb78}
   .cta{display:flex;align-items:center;gap:8px;padding:10px 18px;font-size:14px}
   .cta .ms{font-size:18px}
+  .burger{display:none}
+
+  @media (max-width:900px){
+    .inner{padding:8px 16px 8px 24px}
+    .brand img{height:52px;margin:-4px 0 -4px -15px}
+    .burger{display:flex;align-items:center;justify-content:center;width:48px;height:48px;padding:0;border:1px solid rgba(217,187,120,.5);border-radius:2px;background:transparent;color:#d9bb78;cursor:pointer}
+    .burger .ms{font-size:28px}
+    nav{
+      position:absolute;top:100%;left:0;right:0;
+      flex-direction:column;align-items:stretch;gap:0;
+      background:#282554;border-bottom:1px solid rgba(201,164,92,.35);
+      box-shadow:0 24px 40px -24px rgba(0,0,0,.6);
+      padding:8px 24px 24px;
+      visibility:hidden;opacity:0;transform:translateY(-8px);
+      transition:opacity .2s,transform .2s,visibility 0s .2s;
+    }
+    .open nav{visibility:visible;opacity:1;transform:none;transition:opacity .2s,transform .2s}
+    .nav-link{padding:16px 0;font-size:14px;border-bottom:1px solid rgba(217,187,120,.15)}
+    .cta{justify-content:center;margin-top:20px;padding:14px 18px;font-size:15px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    nav{transition:none !important}
+  }
 </style>

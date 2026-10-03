@@ -3,24 +3,16 @@ import { Image } from 'astro:assets';
 import { slides, slideImage } from '../data/promos';
 ---
 {slides.length > 0 && (
-<section id="oferta-sezonowa" class="promos" aria-roledescription="karuzela" aria-label="Aktualne promocje">
-  <div class="inner">
-    <div class="head">
-      <div class="head-copy">
-        <div class="eyebrow">Oferta sezonowa</div>
-        <h2 class="h2">Aktualne promocje z kodem agenta</h2>
-      </div>
-      {slides.length > 1 && (
-        <div class="arrows">
-          <button type="button" class="arrow" data-prev aria-label="Poprzednia"><span class="ms" aria-hidden="true">chevron_left</span></button>
-          <button type="button" class="arrow" data-next aria-label="Następna"><span class="ms" aria-hidden="true">chevron_right</span></button>
-        </div>
-      )}
-    </div>
+<section id="oferta-sezonowa" class="promos" class:list={{ single: slides.length === 1 }} aria-roledescription="karuzela" aria-label="Aktualne promocje">
+  <div class="wrap">
+    <div class="eyebrow">Oferta sezonowa</div>
+    <h2 class="h2">Aktualne promocje z kodem agenta</h2>
+  </div>
+  <div class="stage">
     <div class="viewport" data-viewport>
       <div class="track" data-track>
         {slides.map((s, i) => (
-          <article class="slide" aria-roledescription="slajd" aria-label={`${i + 1} z ${slides.length}: ${s.title}`}>
+          <article class="slide" class:list={{ 'is-active': i === 0 }} aria-roledescription="slajd" aria-label={`${i + 1} z ${slides.length}: ${s.title}`}>
             <div class="media">
               <Image src={slideImage(s)} alt={s.title} widths={[480, 720, 1000]} sizes="(min-width: 1200px) 576px, (min-width: 700px) 50vw, 100vw" loading="lazy" />
             </div>
@@ -40,11 +32,15 @@ import { slides, slideImage } from '../data/promos';
       </div>
     </div>
     {slides.length > 1 && (
-      <div class="dots">
-        {slides.map((s, i) => (
-          <button type="button" class="dot" class:list={{ active: i === 0 }} data-dot={i} aria-label={`Slajd ${i + 1}: ${s.title}`}></button>
-        ))}
-      </div>
+      <>
+        <button type="button" class="arrow prev" data-prev aria-label="Poprzednia promocja"><span class="ms" aria-hidden="true">chevron_left</span></button>
+        <button type="button" class="arrow next" data-next aria-label="Następna promocja"><span class="ms" aria-hidden="true">chevron_right</span></button>
+        <div class="dots">
+          {slides.map((s, i) => (
+            <button type="button" class="dot" class:list={{ active: i === 0 }} data-dot={i} aria-label={`Slajd ${i + 1}: ${s.title}`}></button>
+          ))}
+        </div>
+      </>
     )}
   </div>
 </section>
@@ -56,19 +52,51 @@ import { slides, slideImage } from '../data/promos';
 </script>
 
 <style>
-  .promos{background:#fbfaf7}
-  .inner{max-width:1200px;margin:0 auto;padding:96px 24px;display:flex;flex-direction:column;gap:40px}
-  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
-  .head-copy{display:flex;flex-direction:column;gap:14px}
-  .arrows{display:flex;gap:10px}
-  .arrow{width:48px;height:48px;border:1px solid #b8913f;background:transparent;color:#26244f;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0}
-  .arrow:hover{background:#26244f;color:#fff}
-  .arrow .ms{font-size:22px}
-  .viewport{overflow:hidden;background:#fff;border-top:2px solid #b8913f;box-shadow:0 30px 60px -40px rgba(38,36,79,.35)}
-  .track{display:flex}
-  .slide{flex:0 0 100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:stretch}
+  .promos{background:#fbfaf7;padding:96px 0;overflow:hidden}
+  /* Szerokość karty (--w) i odstęp; boczne „zajawki” sąsiednich ofert to pozostałe miejsce (--side).
+     Nagłówek sekcji jest wcięty o --side, więc zawsze startuje równo z kartą. */
+  .promos{
+    --w:min(980px, 100% - 240px);
+    --gap:32px;
+    --side:calc((100% - var(--w)) / 2);
+  }
+  .wrap{margin:0 0 40px;padding:0 var(--side);display:flex;flex-direction:column;gap:14px}
+
+  .stage{
+    --shadow-room:60px;
+    position:relative;
+  }
+  .viewport{
+    overflow:hidden;
+    padding-bottom:var(--shadow-room);
+    -webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.08),#000 var(--side),#000 calc(100% - var(--side)),rgba(0,0,0,.08));
+    mask-image:linear-gradient(90deg,rgba(0,0,0,.08),#000 var(--side),#000 calc(100% - var(--side)),rgba(0,0,0,.08));
+  }
+  .track{
+    --pos:0;
+    display:flex;
+    gap:var(--gap);
+    transform:translateX(calc(var(--side) - var(--pos) * (var(--w) + var(--gap))));
+  }
+  .slide{
+    flex:0 0 var(--w);
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));align-items:stretch;
+    background:#fff;border-top:2px solid #b8913f;box-shadow:0 30px 60px -40px rgba(38,36,79,.35);
+    opacity:.45;transition:opacity .6s cubic-bezier(.6,0,.2,1);
+  }
+  .slide.is-active{opacity:1}
+  .slide:not(.is-active){cursor:pointer}
+  .track.no-anim,.track.no-anim .slide{transition:none !important}
+
   .media{background:#f1eee6;display:flex;align-items:center;justify-content:center;min-height:360px}
   .media img{display:block;width:100%;height:100%;max-height:520px;object-fit:cover}
+  /* Wąski slajd (zdjęcie nad tekstem): grafika w naturalnych proporcjach, bez przycinania;
+     slajdy mają równą wysokość, więc nadmiar miejsca idzie pod tekst, a nie w zdjęcie. */
+  .slide{container-type:inline-size;align-content:start}
+  @container (max-width:759px){
+    .media{min-height:0}
+    .media img{height:auto;max-height:none}
+  }
   .body{padding:48px;display:flex;flex-direction:column;gap:18px;justify-content:center}
   .labels{display:flex;gap:10px;flex-wrap:wrap}
   .tag{background:#26244f;color:#d9bb78;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px}
@@ -81,7 +109,46 @@ import { slides, slideImage } from '../data/promos';
   .cta-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding-top:8px}
   .cta{padding:15px 26px;font-size:15px;display:flex;align-items:center;gap:10px}
   .cta .ms{font-size:20px}
-  .dots{display:flex;justify-content:center;gap:10px}
-  .dot{width:14px;height:4px;border:none;padding:0;cursor:pointer;background:#d8d2c2;transition:all .3s}
-  .dot.active{width:36px;background:#b8913f}
+
+  /* Strzałki: klasyczne, białe kółka nad wycieniowanymi bocznymi ofertami */
+  .arrow{
+    position:absolute;z-index:2;
+    top:calc((100% - var(--shadow-room)) / 2);
+    width:52px;height:52px;padding:0;border-radius:50%;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    background:#fff;color:#26244f;border:none;
+    box-shadow:0 8px 24px -6px rgba(38,36,79,.35),0 0 0 1px rgba(38,36,79,.06);
+    transform:translate(-50%,-50%);
+    transition:background .2s,color .2s,box-shadow .2s;
+  }
+  /* środek bocznego pasa, ale nie bliżej krawędzi ekranu niż 34 px */
+  .arrow.prev{left:max(34px, var(--side) / 2)}
+  .arrow.next{left:min(100% - 34px, 100% - var(--side) / 2)}
+  .arrow:hover,.arrow:focus-visible{background:#26244f;color:#fff;box-shadow:0 10px 28px -6px rgba(38,36,79,.5)}
+  .arrow:focus-visible{outline:2px solid #b8913f;outline-offset:3px}
+  .arrow .ms{font-size:28px}
+  /* Strzałka „dalej” delikatnie pulsuje (złota poświata), zachęcając do przewinięcia */
+  .arrow.next{animation:nudge 2.6s ease-out infinite}
+  .arrow.next:hover,.arrow.next:focus-visible{animation:none}
+  @keyframes nudge{
+    0%{box-shadow:0 8px 24px -6px rgba(38,36,79,.35),0 0 0 1px rgba(38,36,79,.06),0 0 0 0 rgba(184,145,63,.45)}
+    60%{box-shadow:0 8px 24px -6px rgba(38,36,79,.35),0 0 0 1px rgba(38,36,79,.06),0 0 0 12px rgba(184,145,63,0)}
+    100%{box-shadow:0 8px 24px -6px rgba(38,36,79,.35),0 0 0 1px rgba(38,36,79,.06),0 0 0 0 rgba(184,145,63,0)}
+  }
+  @media (prefers-reduced-motion:reduce){.arrow.next{animation:none}}
+
+  /* kropki wchodzą w miejsce na cień, więc wysokość .stage = wysokość karuzeli */
+  .dots{position:relative;z-index:1;display:flex;justify-content:center;align-items:center;gap:6px;height:24px;margin-top:-24px}
+  /* widoczny pasek 4 px, ale większy obszar do kliknięcia/dotknięcia */
+  .dot{width:22px;height:24px;border:none;padding:10px 4px;cursor:pointer;background:#d8d2c2;background-clip:content-box;transition:all .3s}
+  .dot.active{width:44px;background-color:#b8913f}
+
+  .single .viewport{-webkit-mask-image:none;mask-image:none}
+
+  /* Telefony: węższe zajawki, bez strzałek – przesuwanie palcem i kropki */
+  @media (max-width:720px){
+    .promos{--w:calc(100% - 64px);--gap:12px}
+    .stage{--shadow-room:48px}
+    .arrow{display:none}
+  }
 </style>

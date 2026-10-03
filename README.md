@@ -10,7 +10,6 @@ src/data/site.ts            ← pozostałe treści: usługi, opinie, dane kontak
 src/components/             ← sekcje strony
 src/pages/admin/            ← panel admina
 worker/                     ← backend panelu (Cloudflare Worker)
-legacy/                     ← pierwotny prototyp (tylko do wglądu)
 ```
 
 ## Praca lokalna

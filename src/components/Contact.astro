@@ -79,4 +79,9 @@ import { company, contactTopics } from '../data/site';
   .consent{flex-direction:row;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:#6b6985;font-weight:400;letter-spacing:normal;text-transform:none}
   .consent input{margin-top:3px;accent-color:#26244f}
   .submit{border:none;padding:15px;font-size:15px;cursor:pointer}
+  /* Na telefonie (jedna kolumna) najpierw formularz, potem dane kontaktowe i mapa */
+  @media (max-width:711px){
+    .form-card{order:-1}
+    .form-card{padding:28px 24px}
+  }
 </style>

@@ -1,4 +1,4 @@
-// Treści strony przeniesione 1:1 z prototypu (legacy/MMSafe Landing.dc.html).
+// Treści strony (usługi, opinie, dane kontaktowe i firmowe).
 
 export const company = {
   name: 'MMSafe Ubezpieczenia',
