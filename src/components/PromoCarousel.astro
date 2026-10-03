@@ -88,16 +88,12 @@ import { slides, slideImage } from '../data/promos';
   .slide:not(.is-active){cursor:pointer}
   .track.no-anim,.track.no-anim .slide{transition:none !important}
 
-  .media{background:#f1eee6;display:flex;align-items:center;justify-content:center;min-height:360px}
-  .media img{display:block;width:100%;height:100%;max-height:520px;object-fit:cover}
-  /* Wąski slajd (zdjęcie nad tekstem): grafika w naturalnych proporcjach, bez przycinania;
-     slajdy mają równą wysokość, więc nadmiar miejsca idzie pod tekst, a nie w zdjęcie. */
-  .slide{container-type:inline-size;align-content:start}
-  @container (max-width:759px){
-    .media{min-height:0}
-    .media img{height:auto;max-height:none}
-  }
-  .body{padding:48px;display:flex;flex-direction:column;gap:18px;justify-content:center}
+  /* Zdjęcie promocji zawsze jako kwadrat na pełną szerokość swojej kolumny (inne proporcje są przycinane do środka).
+     Slajdy mają równą wysokość, więc nadmiar miejsca idzie pod tekst; obok tekstu zdjęcie jest wyśrodkowane w pionie. */
+  .slide{align-content:start}
+  .media{background:#f1eee6;aspect-ratio:1/1;align-self:center;overflow:hidden}
+  .media img{display:block;width:100%;height:100%;object-fit:cover}
+  .body{padding:48px;display:flex;flex-direction:column;gap:18px;justify-content:center;min-width:0;overflow-wrap:anywhere}
   .labels{display:flex;gap:10px;flex-wrap:wrap}
   .tag{background:#26244f;color:#d9bb78;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px}
   .promo{border:1px solid #b8913f;color:#a8843f;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px}
