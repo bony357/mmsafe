@@ -1,6 +1,6 @@
 # MMSafe Ubezpieczenia – strona www
 
-Statyczna strona w [Astro](https://astro.build) (czysty HTML, przyjazny SEO), hostowana za darmo na GitHub Pages.
+Statyczna strona w [Astro](https://astro.build) (czysty HTML, przyjazny SEO), hostowana na dhostingu (mmsafe.pl), wgrywana automatycznie przez GitHub Actions.
 Karuzelę „Aktualne promocje” edytuje się w panelu `/admin` po zalogowaniu hasłem. Hasło sprawdza mały, darmowy Cloudflare Worker, który zapisuje zmiany jako commit w tym repozytorium.
 
 ```
@@ -22,11 +22,13 @@ npm run build      # wynik w dist/
 
 ## Wdrożenie (jednorazowo)
 
-### 1. GitHub Pages
+### 1. Hosting (dhosting, mmsafe.pl)
 
-1. Utwórz **publiczne** repozytorium na GitHubie (darmowe Pages wymaga repo publicznego) i wypchnij kod na gałąź `main`.
-2. *Settings → Pages → Build and deployment → Source:* **GitHub Actions**.
-3. Każdy push na `main` buduje i publikuje stronę (workflow `.github/workflows/deploy.yml`). Adres i ścieżka bazowa (`/nazwa-repo`) ustawiają się automatycznie.
+Strona jest wgrywana po FTPS na dhosting – poczta i DNS domeny zostają bez zmian.
+
+1. *Settings → Secrets and variables → Actions → Secrets:* `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`.
+2. Tamże, zakładka *Variables:* `FTP_DIR` – katalog strony na serwerze, zakończony `/` (np. `mmsafe.pl-pha9/public_html/`).
+3. Każdy push na `main` buduje stronę i wgrywa zmienione pliki (workflow `.github/workflows/deploy.yml`). Można też uruchomić go ręcznie: *Actions → Wdrożenie na dhosting → Run workflow*.
 
 ### 2. Token GitHub dla Workera
 
@@ -50,7 +52,7 @@ npx wrangler login
 W `worker/wrangler.toml` uzupełnij:
 
 - `GITHUB_REPO` – np. `jan-kowalski/mmsafe`,
-- `ALLOWED_ORIGIN` – adres strony bez ścieżki, np. `https://jan-kowalski.github.io`.
+- `ALLOWED_ORIGIN` – adres strony bez ścieżki, np. `https://mmsafe.pl`.
 
 Ustaw sekrety (wrangler zapyta o wartość):
 
@@ -70,9 +72,9 @@ Wrangler wypisze adres Workera, np. `https://mmsafe-admin.jan-kowalski.workers.d
 - **Name:** `ADMIN_API_URL`
 - **Value:** adres Workera z kroku 3
 
-Potem *Actions → Wdrożenie na GitHub Pages → Run workflow* (albo dowolny push).
+Potem *Actions → Wdrożenie na dhosting → Run workflow* (albo dowolny push).
 
-Panel działa pod adresem `https://<użytkownik>.github.io/<repo>/admin/`.
+Panel działa pod adresem `https://mmsafe.pl/admin/`.
 
 ## Korzystanie z panelu
 
@@ -94,12 +96,10 @@ Wylogowanie wszystkich sesji: ustaw nowy `SESSION_SECRET`.
 - Zapis to jeden commit. Worker odrzuca zapis, jeśli dane w repo zmieniły się od wczytania panelu.
 - Zdjęcia, których nie używa już żadna promocja, są usuwane z repo.
 
-## Własna domena (np. mmsafe.pl)
+## Zmiana domeny
 
-1. *Settings → Pages → Custom domain* → `mmsafe.pl` i ustaw rekordy DNS według [instrukcji GitHuba](https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site).
-2. W `worker/wrangler.toml` zmień `ALLOWED_ORIGIN` na `https://mmsafe.pl` i uruchom `npx wrangler deploy`.
-
-Ścieżka bazowa i adresy kanoniczne ustawią się automatycznie przy następnym buildzie.
+1. W `.github/workflows/deploy.yml` zmień `SITE_URL`, a w zmiennej `FTP_DIR` katalog na serwerze.
+2. W `worker/wrangler.toml` zmień `ALLOWED_ORIGIN` i uruchom `npx wrangler deploy`.
 
 ## Test Workera lokalnie
 

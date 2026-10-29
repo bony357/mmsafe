@@ -1,4 +1,4 @@
-name: Wdrożenie na GitHub Pages
+name: Wdrożenie na dhosting (mmsafe.pl)
 
 on:
   push:
@@ -7,15 +7,14 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
+# Wgrywanie po FTP nie może zostać przerwane w połowie – kolejne wdrożenie czeka na poprzednie
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: deploy
+  cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,24 +22,19 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - id: pages
-        uses: actions/configure-pages@v5
       - run: npm ci
       - run: npm run build
         env:
-          SITE_URL: ${{ steps.pages.outputs.origin }}
-          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          SITE_URL: https://mmsafe.pl
+          BASE_PATH: /
           PUBLIC_ADMIN_API_URL: ${{ vars.ADMIN_API_URL }}
-      - uses: actions/upload-pages-artifact@v3
+      # Wgrywa tylko zmienione pliki (stan trzymany w .ftp-deploy-sync-state.json na serwerze).
+      # Usuwa wyłącznie pliki, które sam wcześniej wgrał – reszta katalogu zostaje nietknięta.
+      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ${{ vars.FTP_DIR }}

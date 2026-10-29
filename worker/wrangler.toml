@@ -7,7 +7,7 @@ compatibility_date = "2025-09-01"
 GITHUB_REPO = "bony357/mmsafe"
 GITHUB_BRANCH = "main"
 # Adres strony (bez ścieżki). Kilka adresów oddziel przecinkami, np. dla testów lokalnych.
-ALLOWED_ORIGIN = "https://bony357.github.io"
+ALLOWED_ORIGIN = "https://mmsafe.pl,https://www.mmsafe.pl"
 
 # Sekrety (NIE wpisuj ich tutaj) – ustaw poleceniami:
 #   npx wrangler secret put ADMIN_PASSWORD
