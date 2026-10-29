@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import prof from '../assets/prof.jpeg';
+import logo from '../assets/logo_long_trim.jpg';
 import { company } from '../data/site';
 
 const perks = [
@@ -13,7 +14,13 @@ const perks = [
   <div class="inner">
     <div class="portrait">
       <div class="frame" aria-hidden="true"></div>
-      <Image src={prof} alt={`${company.owner} – doradca ubezpieczeniowy, MMSafe Ubezpieczenia`} widths={[370, 508]} sizes="370px" loading="lazy" />
+      <div class="card">
+        <div class="photo">
+          <Image src={prof} alt={`${company.owner} – doradca ubezpieczeniowy, MMSafe Ubezpieczenia`} widths={[260, 508]} sizes="(max-width: 600px) 240px, 260px" loading="lazy" />
+        </div>
+        <div class="brandbar"><Image src={logo} alt="MMSafe Ubezpieczenia Małgorzata Migas" width={224} densities={[1, 2]} loading="lazy" /></div>
+        <a href="#kontakt" class="consult btn-gold">Bezpłatna konsultacja<span class="ms" aria-hidden="true">arrow_forward</span></a>
+      </div>
     </div>
     <div class="copy">
       <div class="eyebrow">Twój doradca</div>
@@ -36,9 +43,23 @@ const perks = [
 <style>
   .advisor{background:#fbfaf7}
   .inner{max-width:1200px;margin:0 auto;padding:84px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:64px;align-items:center}
-  .portrait{position:relative;padding:20px 20px 0 0;max-width:370px;justify-self:center;width:100%}
+  /* Wizytówka doradcy: zdjęcie przechodzące w granat, logo, złoty pasek z CTA */
+  /* Złota ramka przesunięta w prawo-górę, za wizytówką */
+  .portrait{position:relative;padding:20px 20px 0 0;width:100%;max-width:280px;justify-self:center}
   .frame{position:absolute;top:0;right:0;left:20px;bottom:20px;border:1px solid #b8913f}
-  .portrait img{position:relative;display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:top;box-shadow:0 30px 60px -30px rgba(38,36,79,.45)}
+  .card{position:relative;background:#282554;box-shadow:0 30px 60px -30px rgba(38,36,79,.55)}
+  .photo{position:relative;aspect-ratio:4/5;overflow:hidden}
+  /* prof.jpeg ma czarny pierwszy wiersz pikseli – przesuwamy zdjęcie o 2 px w górę, żeby go ukryć */
+  .photo > img{display:block;width:100%;height:calc(100% + 2px);margin-top:-2px;object-fit:cover;object-position:top}
+  .photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,37,84,0) 70%,#282554 100%);pointer-events:none}
+  .brandbar{padding:6px 18px 16px}
+  .brandbar img{display:block;width:100%;height:auto}
+  .consult{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;font-size:14px;border-radius:0}
+  .consult .ms{font-size:20px}
+  @media (max-width:600px){
+    .portrait{max-width:260px}
+    .brandbar{padding:6px 16px 16px}
+  }
   .copy{display:flex;flex-direction:column;gap:20px}
   .name{display:flex;flex-direction:column;gap:6px}
   .name span{color:#a8843f;font-weight:600;font-size:15px}

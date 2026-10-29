@@ -21,4 +21,4 @@ img{max-width:100%}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
 /* Nagłówek jest przyklejony – kotwice nie chowają tytułów sekcji pod nim */
-section[id]{scroll-margin-top:70px}
+section[id]{scroll-margin-top:80px}

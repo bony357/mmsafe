@@ -6,7 +6,7 @@ const { hasPromos = true } = Astro.props;
 <header class="header" data-header>
   <div class="inner">
     <a href="#top" class="brand" aria-label="MMSafe Ubezpieczenia – strona główna">
-      <Image src={logo} alt="MMSafe Ubezpieczenia Małgorzata Migas" height={64} densities={[1, 2]} loading="eager" />
+      <Image src={logo} alt="MMSafe Ubezpieczenia Małgorzata Migas" height={76} densities={[1, 2]} loading="eager" />
     </a>
     <button type="button" class="burger" data-burger aria-expanded="false" aria-controls="menu" aria-label="Otwórz menu">
       <span class="ms" aria-hidden="true">menu</span>
@@ -46,7 +46,7 @@ const { hasPromos = true } = Astro.props;
   .inner{position:relative;max-width:1200px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
   .brand{display:flex;align-items:center}
   /* logo_long ma ~70 px marginesu z lewej (w oryginale) – wyrównujemy treść logo do krawędzi strony */
-  .brand img{height:64px;width:auto;display:block;margin:-8px 0 -8px -18px}
+  .brand img{height:76px;width:auto;display:block;margin:-10px 0 -10px -21px}
   nav{display:flex;align-items:center;gap:28px}
   .nav-link{color:#e9e6f2;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
   .nav-link:hover{color:#d9bb78}
@@ -56,7 +56,7 @@ const { hasPromos = true } = Astro.props;
 
   @media (max-width:900px){
     .inner{padding:8px 16px 8px 24px}
-    .brand img{height:52px;margin:-4px 0 -4px -15px}
+    .brand img{height:60px;margin:-5px 0 -5px -17px}
     .burger{display:flex;align-items:center;justify-content:center;width:48px;height:48px;padding:0;border:1px solid rgba(217,187,120,.5);border-radius:2px;background:transparent;color:#d9bb78;cursor:pointer}
     .burger .ms{font-size:28px}
     nav{

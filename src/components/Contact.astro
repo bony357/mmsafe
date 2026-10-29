@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo_long_trim.jpg';
 import { company, contactTopics } from '../data/site';
 ---
 <section id="kontakt" class="contact">
@@ -10,6 +12,7 @@ import { company, contactTopics } from '../data/site';
     </div>
     <div class="cols">
       <div class="card info">
+        <div class="brandbar"><Image src={logo} alt="MMSafe Ubezpieczenia Małgorzata Migas" height={64} densities={[1, 2]} loading="lazy" /></div>
         <div class="details">
           <a href={company.phoneHref} class="line strong"><span class="ms" aria-hidden="true">call</span>{company.phone}</a>
           <a href={`mailto:${company.email}`} class="line strong"><span class="ms" aria-hidden="true">mail</span>{company.email}</a>
@@ -58,6 +61,8 @@ import { company, contactTopics } from '../data/site';
   .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;align-items:stretch}
   .card{background:#fff;border-top:2px solid #b8913f}
   .info{display:flex;flex-direction:column;gap:0}
+  .brandbar{background:#282554;padding:18px 28px}
+  .brandbar img{display:block;height:64px;width:auto;max-width:100%;margin:0 auto;object-fit:contain}
   .details{padding:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
   .line{display:flex;gap:12px;align-items:flex-start;color:#55536e;font-size:15px;line-height:1.5;font-style:normal}
   .line.strong{align-items:center;color:#26244f;font-weight:600;font-size:16px;line-height:normal}

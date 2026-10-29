@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../assets/logo_small.jpeg';
+import logo from '../assets/logo_stacked.jpg';
 import { company } from '../data/site';
 const year = new Date().getFullYear();
 ---
@@ -8,7 +8,7 @@ const year = new Date().getFullYear();
   <div class="inner">
     <div class="cols">
       <div class="col brand">
-        <Image src={logo} alt="MMSafe" height={54} densities={[1, 2]} loading="eager" />
+        <Image src={logo} alt="MMSafe Ubezpieczenia Małgorzata Migas" height={120} densities={[1, 2]} loading="lazy" />
         <span class="about">Ubezpieczenia Śląsk - {company.areaServed.join(', ')}.</span>
       </div>
       <nav class="col" aria-label="Na skróty">
@@ -43,12 +43,13 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  .footer{background:#26244f;border-top:1px solid rgba(201,164,92,.35);color:#bdb9d2}
+  /* Tło w kolorze tła logo, żeby obraz się z nim zlewał */
+  .footer{background:#282554;border-top:1px solid rgba(201,164,92,.35);color:#bdb9d2}
   .inner{max-width:1200px;margin:0 auto;padding:56px 24px 28px;display:flex;flex-direction:column;gap:36px}
   .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px}
   .col{display:flex;flex-direction:column;gap:10px;font-size:14px}
   .brand{gap:14px}
-  .brand img{height:54px;width:auto;align-self:flex-start;display:block}
+  .brand img{height:120px;width:auto;align-self:flex-start;display:block}
   .about{font-size:14px;line-height:1.6}
   strong{color:#d9bb78;font-family:'Playfair Display',serif;font-size:16px;font-weight:600}
   a{color:#bdb9d2}
