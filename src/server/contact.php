@@ -92,18 +92,71 @@ $body = implode("\r\n", [
   "Wiadomość z formularza na stronie {$config['site']}",
 ]);
 
-// Nadawca z domeny firmy – zgodnie z SPF mmsafe.pl (serwery dhostingu)
-$sent = mail(
-  $config['recipient'],
-  '=?UTF-8?B?' . base64_encode("Zapytanie o wycenę – $topic") . '?=',
-  chunk_split(base64_encode($body)),
-  [
-    'From' => "Formularz MMSafe <{$config['recipient']}>",
-    'MIME-Version' => '1.0',
-    'Content-Type' => 'text/plain; charset=UTF-8',
-    'Content-Transfer-Encoding' => 'base64',
-  ],
-  '-f' . $config['recipient']
-);
+$subject = '=?UTF-8?B?' . base64_encode("Zapytanie o wycenę – $topic") . '?=';
+$encodedBody = chunk_split(base64_encode($body));
+$smtp = $config['smtp'];
+$from = $smtp['user'] ?? $config['recipient'];
+$headers = [
+  'From' => "Formularz MMSafe <$from>",
+  'MIME-Version' => '1.0',
+  'Content-Type' => 'text/plain; charset=UTF-8',
+  'Content-Transfer-Encoding' => 'base64',
+];
 
+// Wysyłka przez skrzynkę na dhostingu (SMTP) – serwer pocztowy podpisuje ją DKIM, więc nie trafia do spamu.
+// mail() tylko awaryjnie: dhosting podmienia w nim nadawcę i nie podpisuje wiadomości.
+if ($smtp) {
+  try {
+    $message = implode("\r\n", array_map(fn($k, $v) => "$k: $v", array_keys($headers), $headers)) . "\r\n"
+      . 'To: ' . $config['recipient'] . "\r\n"
+      . "Subject: $subject\r\n"
+      . 'Date: ' . date(DATE_RFC2822) . "\r\n"
+      . 'Message-ID: <' . bin2hex(random_bytes(16)) . '@' . $config['site'] . ">\r\n"
+      . "\r\n" . $encodedBody;
+    smtp_send($smtp, $config['site'], $config['recipient'], $message);
+    respond(200);
+  } catch (Throwable $e) {
+    error_log('Formularz wyceny – ' . $e->getMessage());
+  }
+}
+
+$sent = mail($config['recipient'], $subject, $encodedBody, $headers, "-f$from");
 $sent ? respond(200) : respond(500, 'Nie udało się wysłać wiadomości.');
+
+function smtp_send(array $smtp, string $helo, string $to, string $message): void {
+  $implicitTls = (int) $smtp['port'] === 465;
+  $fp = @stream_socket_client(
+    ($implicitTls ? 'ssl://' : 'tcp://') . "{$smtp['host']}:{$smtp['port']}",
+    $errno, $errstr, 10, STREAM_CLIENT_CONNECT,
+    stream_context_create(['ssl' => ['peer_name' => $smtp['host']]])
+  );
+  if (!$fp) throw new RuntimeException("SMTP: brak połączenia z {$smtp['host']}:{$smtp['port']} ($errstr)");
+  stream_set_timeout($fp, 10);
+
+  $cmd = function (?string $line, int $expect) use ($fp): void {
+    if ($line !== null) fwrite($fp, "$line\r\n");
+    do {
+      $reply = fgets($fp, 1024);
+    } while ($reply !== false && ($reply[3] ?? ' ') === '-');
+    if ($reply === false || (int) substr($reply, 0, 3) !== $expect) {
+      throw new RuntimeException('SMTP: ' . trim((string) $reply));
+    }
+  };
+
+  $cmd(null, 220);
+  $cmd("EHLO $helo", 250);
+  if (!$implicitTls) {
+    $cmd('STARTTLS', 220);
+    if (!stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) throw new RuntimeException('SMTP: STARTTLS nieudany');
+    $cmd("EHLO $helo", 250);
+  }
+  $cmd('AUTH LOGIN', 334);
+  $cmd(base64_encode($smtp['user']), 334);
+  $cmd(base64_encode($smtp['password']), 235);
+  $cmd("MAIL FROM:<{$smtp['user']}>", 250);
+  $cmd("RCPT TO:<$to>", 250);
+  $cmd('DATA', 354);
+  $cmd("$message\r\n.", 250);
+  $cmd('QUIT', 221);
+  fclose($fp);
+}

@@ -99,7 +99,7 @@ Wylogowanie wszystkich sesji: ustaw nowy `SESSION_SECRET`.
 
 ## Formularz wyceny
 
-Formularz wysyła zapytanie do `api/contact.php` (generowany z `src/server/contact.php`), a ten przesyła je przez `mail()` na adres `company.email` z `src/data/site.ts`. Lista tematów też pochodzi z `site.ts`. Do testów można tymczasowo przekierować zapytania na inny adres zmienną `CONTACT_RECIPIENT` w *Settings → Secrets and variables → Actions → Variables* (po teście usuń ją i uruchom workflow ponownie).
+Formularz wysyła zapytanie do `api/contact.php` (generowany z `src/server/contact.php`), a ten przesyła je na adres `company.email` z `src/data/site.ts`. Wysyłka idzie przez skrzynkę na dhostingu (SMTP, podpis DKIM): zmienne `SMTP_HOST`, `SMTP_PORT` (domyślnie 465), `SMTP_USER` i sekret `SMTP_PASSWORD` w ustawieniach Actions. Bez nich skrypt używa `mail()`, które Gmail odrzuca do spamu. Lista tematów też pochodzi z `site.ts`. Do testów można tymczasowo przekierować zapytania na inny adres zmienną `CONTACT_RECIPIENT` w *Settings → Secrets and variables → Actions → Variables* (po teście usuń ją i uruchom workflow ponownie).
 
 - Ochrona przed spamem: tylko zapytania z mmsafe.pl, ukryte pole-pułapka, odrzucanie wysyłek szybszych niż 3 s od wejścia na stronę, limit 5 zapytań na godzinę z jednego IP i 100 na dobę łącznie (stan w `.mmsafe-contact-limits.json` poza `public_html`).
 - Strona niczego nie zapisuje – dane klienta trafiają tylko do skrzynki.
