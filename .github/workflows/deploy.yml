@@ -28,6 +28,7 @@ jobs:
           SITE_URL: https://mmsafe.pl
           BASE_PATH: /
           PUBLIC_ADMIN_API_URL: ${{ vars.ADMIN_API_URL }}
+          CONTACT_RECIPIENT: ${{ vars.CONTACT_RECIPIENT }}
       # Wgrywa tylko zmienione pliki (stan trzymany w .ftp-deploy-sync-state.json na serwerze).
       # Usuwa wyłącznie pliki, które sam wcześniej wgrał – reszta katalogu zostaje nietknięta.
       - uses: SamKirkland/FTP-Deploy-Action@v4.3.5

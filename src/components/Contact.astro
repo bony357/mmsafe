@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import logo from '../assets/logo_long_trim.jpg';
 import { company, contactTopics } from '../data/site';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 <section id="kontakt" class="contact">
   <div class="inner">
@@ -21,12 +22,12 @@ import { company, contactTopics } from '../data/site';
         </div>
         <iframe title="Mapa dojazdu – MMSafe Ubezpieczenia" src={company.mapEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
-      <div class="card form-card" data-contact data-email={company.email}>
+      <div class="card form-card" data-contact data-email={company.email} data-endpoint={`${base}api/contact.php`}>
         <h3>Poproś o bezpłatną wycenę</h3>
         <div class="sent" data-sent hidden>
           <span class="ms" aria-hidden="true">task_alt</span>
           <strong>Dziękuję za wiadomość!</strong>
-          <span class="sent-text">Twój program pocztowy powinien otworzyć gotową wiadomość – wystarczy ją wysłać. Odezwę się najszybciej, jak to możliwe — zwykle w ciągu jednego dnia roboczego.</span>
+          <span class="sent-text">Zapytanie dotarło. Odezwę się najszybciej, jak to możliwe — zwykle w ciągu jednego dnia roboczego.</span>
           <button type="button" class="reset" data-reset>Wyślij kolejne zapytanie</button>
         </div>
         <form data-form>
@@ -40,8 +41,10 @@ import { company, contactTopics } from '../data/site';
             </select>
           </label>
           <label>Wiadomość<textarea rows="3" name="message" placeholder="Np. kończy mi się OC 15 października"></textarea></label>
+          <label class="hp" aria-hidden="true">Strona www<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
           <label class="consent"><input required type="checkbox" name="consent"><span>Wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania oferty, zgodnie z <a href="#">polityką prywatności</a>.</span></label>
           <button type="submit" class="submit btn-gold">Wyślij zapytanie</button>
+          <p class="error" data-error role="alert" hidden><span data-error-text></span><span data-error-fallback hidden> <a data-error-mail>Wyślij zapytanie e-mailem</a> lub zadzwoń: <a href={company.phoneHref}>{company.phone}</a>.</span></p>
         </form>
       </div>
     </div>
@@ -84,6 +87,11 @@ import { company, contactTopics } from '../data/site';
   .consent{flex-direction:row;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:#6b6985;font-weight:400;letter-spacing:normal;text-transform:none}
   .consent input{margin-top:3px;accent-color:#26244f}
   .submit{border:none;padding:15px;font-size:15px;cursor:pointer}
+  .submit:disabled{cursor:wait;filter:saturate(.6)}
+  .error{margin:0;padding:12px 14px;border-left:3px solid #b3402e;background:#fbefec;color:#5c2a22;font-size:14px;line-height:1.5}
+  .error a{color:#5c2a22;font-weight:600;text-decoration:underline}
+  /* Pole-pułapka na boty: niewidoczne dla ludzi i czytników ekranu */
+  .hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
   /* Na telefonie (jedna kolumna) najpierw formularz, potem dane kontaktowe i mapa */
   @media (max-width:711px){
     .form-card{order:-1}

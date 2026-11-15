@@ -11,5 +11,5 @@ export default defineConfig({
   site,
   base,
   trailingSlash: 'ignore',
-  integrations: [sitemap({ filter: (page) => !page.includes('/admin') })],
+  integrations: [sitemap({ filter: (page) => !page.includes('/admin') && !page.includes('/api/') })],
 });

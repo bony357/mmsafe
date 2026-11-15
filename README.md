@@ -10,6 +10,7 @@ src/data/site.ts            ← pozostałe treści: usługi, opinie, dane kontak
 src/components/             ← sekcje strony
 src/pages/admin/            ← panel admina
 worker/                     ← backend panelu (Cloudflare Worker)
+src/server/contact.php      ← backend formularza wyceny (PHP na dhostingu)
 ```
 
 ## Praca lokalna
@@ -95,6 +96,14 @@ Wylogowanie wszystkich sesji: ustaw nowy `SESSION_SECRET`.
 - Worker waliduje dane: długości pól, linki tylko `https://` lub `#`, zdjęcia JPG/PNG/WebP do 3 MB (typ sprawdzany po zawartości pliku). Nazwy plików nadaje sam Worker.
 - Zapis to jeden commit. Worker odrzuca zapis, jeśli dane w repo zmieniły się od wczytania panelu.
 - Zdjęcia, których nie używa już żadna promocja, są usuwane z repo.
+
+## Formularz wyceny
+
+Formularz wysyła zapytanie do `api/contact.php` (generowany z `src/server/contact.php`), a ten przesyła je przez `mail()` na adres `company.email` z `src/data/site.ts`. Lista tematów też pochodzi z `site.ts`. Do testów można tymczasowo przekierować zapytania na inny adres zmienną `CONTACT_RECIPIENT` w *Settings → Secrets and variables → Actions → Variables* (po teście usuń ją i uruchom workflow ponownie).
+
+- Ochrona przed spamem: tylko zapytania z mmsafe.pl, ukryte pole-pułapka, odrzucanie wysyłek szybszych niż 3 s od wejścia na stronę, limit 5 zapytań na godzinę z jednego IP i 100 na dobę łącznie (stan w `.mmsafe-contact-limits.json` poza `public_html`).
+- Strona niczego nie zapisuje – dane klienta trafiają tylko do skrzynki.
+- Gdy serwer nie odpowiada (np. przy `npm run dev`), formularz proponuje wysłanie zapytania e-mailem (`mailto:`) albo telefon.
 
 ## Zmiana domeny
 
